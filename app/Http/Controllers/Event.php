@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class EventController extends Controller
+{
+    public function createEvent(Request $request)
+    {
+        $event = Event::create([
+            'user_id' => $request->user_id,
+            'nama_konser' => $request->nama_konser,
+            'jumlah_tiket' => $request->jumlah_tiket,
+            'kategori' => $request->kategori,
+            'status' => 'pending',
+        ]);
+        return response()->json($event);
+    }
+
+    public function approveEvent($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->status = 'approved';
+        $event->save();
+        return response()->json($event);
+    }
+}
