@@ -18,6 +18,9 @@ Route::patch('/events/{id}/approve', [EventController::class, 'approveEvent']);
 Route::post('/tickets', [TicketController::class, 'buyTicket']);
 //User
 Route::post('/payments', [PaymentController::class, 'payTicket']);
+//Logout
+Route::middleware('auth.token')->post('/logout', [UserController::class, 'logout']);
+
 //Auth
 Route::middleware('auth.token')->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);

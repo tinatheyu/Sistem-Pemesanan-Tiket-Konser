@@ -117,4 +117,25 @@ class UserController extends Controller
                     ]
                 ], 200);
             }
-            }
+
+    public function logout(Request $request)
+{
+    $user = $request->user; // Pastikan user ada
+
+    if (!$user) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Unauthorized access'
+        ], 401);
+    }
+
+    $user->token = null;
+    $user->save();
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Logout successful'
+    ], 200);
+}
+
+}
