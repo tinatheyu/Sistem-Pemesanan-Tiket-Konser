@@ -45,6 +45,7 @@ class UserController extends Controller
                 'data' => $user
         ], 201);
         }  
+
         catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -75,6 +76,10 @@ class UserController extends Controller
                 'address' => $user->address
             ]   
         ], 200);
+        $user = User::where('name', $request->name)->first();
+        // Tambahkan logika verifikasi password dll
+        
+        return response()->json($user);
     }
 
             public function profile(Request $request)
@@ -98,7 +103,7 @@ class UserController extends Controller
                         'message' => 'Invalid token'
                     ], 401);
                 }
-                
+
                  $user = $request->user; // didapat dari middleware
                 // Token valid
                 return response()->json([
