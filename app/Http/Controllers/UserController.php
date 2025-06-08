@@ -22,6 +22,7 @@ class UserController extends Controller
                 'status' => 'success',
                 'message' => 'User registered successfully',
                 'data' => $user
+                
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
@@ -36,6 +37,7 @@ class UserController extends Controller
     {
         $user = User::where('name', $request->name)->first();
         // Tambahkan logika verifikasi password dll
+        
         return response()->json($user);
     }
 }

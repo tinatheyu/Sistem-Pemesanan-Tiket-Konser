@@ -7,6 +7,7 @@ use App\Models\Event;
 
 class EventController extends Controller
 {
+    //KOko
     public function createEvent(Request $request)
     {
         $event = Event::create([
@@ -18,7 +19,12 @@ class EventController extends Controller
         ]);
         return response()->json($event);
     }
-
+    public function getEvent($id)
+    {
+        $event = Event::findOrFail($id);
+        return response()->json($event);
+    }
+    //sampek kene koko
     public function approveEvent($id)
     {
         $event = Event::findOrFail($id);
@@ -34,9 +40,6 @@ class EventController extends Controller
         $event->save();
         return response()->json($event);
     }
-    public function getEvent($id)
-    {
-        $event = Event::findOrFail($id);
-        return response()->json($event);
-    }
+    
+    
 }
