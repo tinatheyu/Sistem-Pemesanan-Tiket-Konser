@@ -18,6 +18,11 @@ Route::patch('/events/{id}/approve', [EventController::class, 'approveEvent']);
 Route::post('/tickets', [TicketController::class, 'buyTicket']);
 //User
 Route::post('/payments', [PaymentController::class, 'payTicket']);
+//Auth
+Route::middleware('auth.token')->group(function () {
+    Route::get('/profile', [UserController::class, 'profile']);
+    // route lain yang perlu proteksi token
+});
 
 // routes/api.php
 
