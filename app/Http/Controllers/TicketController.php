@@ -14,6 +14,22 @@ class TicketController extends Controller
             'user_id' => $request->user_id,
         ]);
         return response()->json($ticket);
+
+        $request->validate([
+            'event_id' => 'required|exists:events,id',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $ticket = Ticket::create([
+            'event_id' => $request->event_id,
+            'user_id' => $request->user_id,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Tiket berhasil dibeli',
+            'data' => $ticket
+        ]);
+    }
     }
     
-}
