@@ -26,4 +26,17 @@ class EventController extends Controller
         $event->save();
         return response()->json($event);
     }
+    
+    public function rejectEvent($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->status = 'rejected';
+        $event->save();
+        return response()->json($event);
+    }
+    public function getEvent($id)
+    {
+        $event = Event::findOrFail($id);
+        return response()->json($event);
+    }
 }
