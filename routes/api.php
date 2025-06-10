@@ -10,10 +10,12 @@ use App\Http\Controllers\PaymentController;
 //User
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/logout', [UserController::class, 'logout']);
 //Penyelenggara
 Route::post('/events', [EventController::class, 'createEvent']);
 //Admin
 Route::patch('/events/{id}/approve', [EventController::class, 'approveEvent']);
+Route::patch('/events/{id}/reject', [EventController::class, 'rejectEvent']);
 //User
 Route::post('/tickets', [TicketController::class, 'buyTicket']);
 //User

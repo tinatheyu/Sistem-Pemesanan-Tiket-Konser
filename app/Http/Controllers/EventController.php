@@ -25,21 +25,75 @@ class EventController extends Controller
         return response()->json($event);
     }
     //sampek kene koko
-    public function approveEvent($id)
+
+   public function approveEvent($id)
     {
+    try {
         $event = Event::findOrFail($id);
+          if (!$event) {
+            return response()->json([
+                'code' => 404,
+                'message' => 'Event not found.'
+            ], 404);
+        }
+        if ($event->status == 'approved') {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Event already approved.'
+            ], 400);
+        }
         $event->status = 'approved';
         $event->save();
-        return response()->json($event);
+        return response()->json([
+            'code' => 200,
+            'message' => 'Event approved successfully.',
+            'data' => $event
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'code' => 500,
+            'message' => 'Failed to approve event.',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
     
-    public function rejectEvent($id)
-    {
+   public function rejectEvent($id)
+{
+    try {
         $event = Event::findOrFail($id);
+        if (!$event) {
+            return response()->json([
+                'code' => 404,
+                'message' => 'Event not found.'
+            ], 404);
+        }
+        if ($event->status == 'rejected') {
+            return response()->json([
+                'code' => 400,
+                'message' => 'Event already rejected.'
+            ], 400);
+        }
         $event->status = 'rejected';
         $event->save();
-        return response()->json($event);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Event rejected successfully.',
+            'data' => $event
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'code' => 500,
+            'message' => 'Failed to reject event.',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
     
     
 }
