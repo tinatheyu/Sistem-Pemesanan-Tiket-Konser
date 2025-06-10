@@ -8,6 +8,41 @@ use App\Models\Ticket;
 
 class PaymentController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/payments",
+     *     summary="Process ticket payment",
+     *     description="Create payment record and update ticket with payment ID",
+     *     tags={"Payment"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"user_id", "tiket_id", "bukti_pembayaran"},
+     *             @OA\Property(property="user_id", type="integer", description="User ID"),
+     *             @OA\Property(property="tiket_id", type="integer", description="Ticket ID"),
+     *             @OA\Property(property="bukti_pembayaran", type="string", description="Payment proof")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Payment successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Payment successful and ticket updated"),
+     *             @OA\Property(property="payment", type="object"),
+     *             @OA\Property(property="ticket", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object")
+     *         )
+     *     )
+     * )
+     */
     public function payTicket(Request $request)
     {
         // Validasi input

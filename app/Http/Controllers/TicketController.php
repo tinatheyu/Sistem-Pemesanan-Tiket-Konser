@@ -9,6 +9,42 @@ use App\Models\User;
 use OpenApi\Annotations as OA;
 class TicketController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/tickets",
+     *     summary="Purchase a ticket",
+     *     tags={"Tickets"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"event_id", "user_id"},
+     *             @OA\Property(property="event_id", type="integer"),
+     *             @OA\Property(property="user_id", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Ticket purchased successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Ticket purchased successfully"),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Event or User not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation failed"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error"
+     *     )
+     * )
+     */
     public function buyTicket(Request $request)
     {
         try {

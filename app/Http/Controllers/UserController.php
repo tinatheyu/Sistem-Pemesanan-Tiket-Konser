@@ -102,6 +102,46 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Login user",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="secret123")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Login successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Login successful"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="name", type="string", example="John Doe"),
+     *                 @OA\Property(property="role", type="string", example="user"),
+     *                 @OA\Property(property="age", type="integer", example=25),
+     *                 @OA\Property(property="address", type="string", example="Jl. Mawar No. 123")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid credentials",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Invalid email or password")
+     *         )
+     *     )
+     * )
+     */
     public function login(Request $request)
     {
         $user = User::where('email', $request->email)->first();
@@ -123,47 +163,129 @@ class UserController extends Controller
                 'address' => $user->address
             ]   
         ], 200);
-        $user = User::where('name', $request->name)->first();
-        // Tambahkan logika verifikasi password dll
-        
-        return response()->json($user);
     }
 
-            public function profile(Request $request)
-            {
-                $token = $request->bearerToken();
+    /**
+     * @OA\Get(
+     *     path="/api/profile",
+     *     summary="Get user profile",
+     *     tags={"User"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="User profile retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Authenticated user"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 @OA\Property(property="name", type="string", example="John Doe"),
+     *                 @OA\Property(property="role", type="string", example="user"),
+     *                 @OA\Property(property="age", type="integer", example=25),
+     *                 @OA\Property(property="address", type="string", example="Jl. Mawar No. 123")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Token is required")
+     *         )
+     *     )
+     * )
+     */
+    public function profile(Request $request)
+    {
+        $token = $request->bearerToken();
 
-                // Tidak kirim token = langsung tolak
-                if (!$token) {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Token is required'
-                    ], 401);
-                }
+        // Tidak kirim token = langsung tolak
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token is required'
+            ], 401);
+        }
 
-                // Cari user dengan token tsb
-                $user = User::where('token', $token)->first();
+        // Cari user dengan token tsb
+        $user = User::where('token', $token)->first();
 
-                if (!$user) {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Invalid token'
-                    ], 401);
-                }
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid token'
+            ], 401);
+        }
 
-                 $user = $request->user; // didapat dari middleware
-                // Token valid
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Authenticated user',
-                    'data' => [
-                        'name' => $user->name,
-                        'role' => $user->role,
-                        'age' => $user->age,
-                        'address' => $user->address
-                    ]
-                ], 200);
-            }
+         $user = $request->user; // didapat dari middleware
+        // Token valid
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Authenticated user',
+            'data' => [
+                'name' => $user->name,
+                'role' => $user->role,
+                'age' => $user->age,
+                'address' => $user->address
+            ]
+        ], 200);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="Logout user",
+     *     tags={"Auth"},
+     *     security={{"bearerToken": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Logout successful",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="message", type="string", example="Successfully logged out")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="error"),
+     *             @OA\Property(property="message", type="string", example="Token is required")
+     *         )
+     *     )
+     * )
+     */
+    public function logout(Request $request)
+    {
+        $token = $request->bearerToken();
+
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Token is required'
+            ], 401);
+        }
+
+        $user = User::where('token', $token)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid token'
+            ], 401);
+        }
+
+        // Reset token
+        $user->token = null;
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully logged out'
+        ], 200);
+    }
 
 
 

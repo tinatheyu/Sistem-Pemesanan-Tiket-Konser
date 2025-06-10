@@ -17,6 +17,7 @@ Route::post('/logout', [UserController::class, 'logout']);
 Route::post('/events', [EventController::class, 'createEvent']);
 Route::get('/events/{id}', [EventController::class,'getEvent']);
 Route::delete('/events/{id}', [EventController::class, 'deleteEvent']);
+Route::patch('/events/{id}', [EventController::class, 'updateEvent']);
 
 //Admin
 Route::patch('/events/{id}/approve', [EventController::class, 'approveEvent']);
@@ -25,20 +26,11 @@ Route::patch('/events/{id}/reject', [EventController::class, 'rejectEvent']);
 Route::post('/tickets', [TicketController::class, 'buyTicket']);
 Route::get('/tickets/{id}', [TicketController::class, 'getTicketDetail']);
 
-//User
+//Payment
 Route::post('/payments', [PaymentController::class, 'payTicket']);
+Route::get('/profile', [UserController::class, 'profile']);
+
 //Logout
 Route::middleware('auth.token')->post('/logout', [UserController::class, 'logout']);
 
-//Auth
-Route::middleware('auth.token')->group(function () {
-    Route::get('/profile', [UserController::class, 'profile']);
-    // route lain yang perlu proteksi token
-});
-
-// routes/api.php
-
-Route::get('/ping', function () {
-    return response()->json(['pong' => true]);
-});
 
