@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Ticket;
 use App\Models\Event;
 use App\Models\User;
-
+use OpenApi\Annotations as OA;
 class TicketController extends Controller
 {
     public function buyTicket(Request $request)
@@ -65,6 +65,21 @@ class TicketController extends Controller
         }
     }
 
+        /**
+     * @OA\Get(
+     *     path="/api/tickets/{id}",
+     *     summary="Get ticket detail",
+     *     tags={"Tickets"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not Found")
+     * )
+     */
     public function getTicketDetail($id)
     {
         $ticket = Ticket::with(['event', 'user'])->find($id);
@@ -82,5 +97,7 @@ class TicketController extends Controller
             'ticket' => $ticket
         ]);
     }
+
+
 
 }

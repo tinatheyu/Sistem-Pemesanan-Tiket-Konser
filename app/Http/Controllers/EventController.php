@@ -19,6 +19,21 @@ class EventController extends Controller
         ]);
         return response()->json($event);
     }
+     /**
+     * @OA\Get(
+     *     path="/api/events/{id}",
+     *     summary="Get Event detail",
+     *     tags={"Events"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Success"),
+     *     @OA\Response(response=404, description="Not Found")
+     * )
+     */
     public function getEvent($id)
     {
         $event = Event::findOrFail($id);

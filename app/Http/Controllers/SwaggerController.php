@@ -3,22 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use OpenApi\Annotations as OA;
 class SwaggerController extends Controller
 {
-    /**
- * @OA\Get(
- *     path="/api/user",
- *     summary="Get user info",
- *     @OA\Response(
- *         response=200,
- *         description="Success"
- *     )
- * )
- */
-public function getUser()
-{
-    return response()->json(['name' => 'ppq', 'status' => 'ganteng']);
-}
+
+
 
 }
