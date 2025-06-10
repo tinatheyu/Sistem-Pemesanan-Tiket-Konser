@@ -17,6 +17,11 @@ class Ticket extends Model
         return $this->belongsTo(Event::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function buyer()
     {
         return $this->belongsTo(User::class, 'user_id');

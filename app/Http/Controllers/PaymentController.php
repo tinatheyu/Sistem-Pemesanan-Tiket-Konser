@@ -10,19 +10,31 @@ class PaymentController extends Controller
 {
     public function payTicket(Request $request)
     {
-        $payment = Payment::create([
-            'user_id' => $request->user_id,
-            'tiket_id' => $request->tiket_id,
-            'bukti_pembayaran' => $request->bukti_pembayaran,
+        // Validasi input
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'tiket_id' => 'required|exists:tickets,id',
+            'bukti_pembayaran' => 'required|string',
         ]);
 
-        $ticket = Ticket::find($request->tiket_id);
+        // Buat data pembayaran
+        $payment = Payment::create([
+            'user_id' => $validated['user_id'],
+            'tiket_id' => $validated['tiket_id'],
+            'bukti_pembayaran' => $validated['bukti_pembayaran'],
+        ]);
+
+        // Update tiket dengan ID pembayaran
+        $ticket = Ticket::find($validated['tiket_id']);
         $ticket->pembayaran_id = $payment->id;
         $ticket->save();
 
+        // Kembalikan response JSON
         return response()->json([
+            'status' => 'success',
+            'message' => 'Payment successful and ticket updated',
             'payment' => $payment,
             'ticket' => $ticket,
-        ]);
+        ], 201);
     }
 }
