@@ -8,6 +8,14 @@ class Event extends Model
 {
     
     protected $table = 'events'; // atau concerts, sesuaikan
+    protected $fillable = [
+        'user_id',
+        'nama_konser',
+        'jumlah_tiket',
+        'kategori',
+        'status'
+    ];
+
 
     public function creator()
     {

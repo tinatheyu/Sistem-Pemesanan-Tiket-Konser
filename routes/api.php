@@ -16,6 +16,8 @@ Route::post('/logout', [UserController::class, 'logout']);
 //Penyelenggara
 Route::post('/events', [EventController::class, 'createEvent']);
 Route::get('/events/{id}', [EventController::class,'getEvent']);
+Route::delete('/events/{id}', [EventController::class, 'deleteEvent']);
+
 //Admin
 Route::patch('/events/{id}/approve', [EventController::class, 'approveEvent']);
 Route::patch('/events/{id}/reject', [EventController::class, 'rejectEvent']);
