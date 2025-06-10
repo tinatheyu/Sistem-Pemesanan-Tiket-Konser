@@ -1,10 +1,10 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Ticket API",
-        "description": "Dokumentasi API Tiket Laravel",
+        "title": "Sistem Penjualan Tiket Konser API",
+        "description": "Dokumentasi API Tiket Konser",
         "contact": {
-            "name": "Ticket Developer",
+            "name": "Developer",
             "email": "Ticket@example.com"
         },
         "version": "1.0.0"
@@ -1033,12 +1033,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/api/profile": {
@@ -1117,61 +1112,16 @@
                     }
                 ]
             }
-        },
-        "/api/logout": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Logout user",
-                "operationId": "67d5147477c548bfbc3f982833bbc7bd",
-                "responses": {
-                    "200": {
-                        "description": "Logout successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Successfully logged out"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Token is required"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerToken": []
-                    }
-                ]
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },
@@ -1195,6 +1145,11 @@
         {
             "name": "User",
             "description": "User"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
         }
     ]
 }

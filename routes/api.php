@@ -17,7 +17,7 @@ Route::post('/logout', [UserController::class, 'logout']);
 Route::post('/events', [EventController::class, 'createEvent']);
 Route::get('/events/{id}', [EventController::class,'getEvent']);
 Route::delete('/events/{id}', [EventController::class, 'deleteEvent']);
-Route::patch('/events/{id}', [EventController::class, 'updateEvent']);
+Route::put('/events/{id}', [EventController::class, 'updateEvent']);
 
 //Admin
 Route::patch('/events/{id}/approve', [EventController::class, 'approveEvent']);
@@ -31,6 +31,6 @@ Route::post('/payments', [PaymentController::class, 'payTicket']);
 Route::get('/profile', [UserController::class, 'profile']);
 
 //Logout
-Route::middleware('auth.token')->post('/logout', [UserController::class, 'logout']);
+// Route::post('/logout', [UserController::class, 'logout']);
 
 
