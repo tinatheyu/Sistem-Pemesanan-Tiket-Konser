@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
             'age' => 1,
             'address' => 'address',
-            'email' => 'test@example.com',
+            'email' => 'admin@example.com',
             'password' => bcrypt('password'),
         ]);
         Event::create([
